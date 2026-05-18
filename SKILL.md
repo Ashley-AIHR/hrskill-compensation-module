@@ -28,6 +28,7 @@ metadata:
 
 如果用户第一次使用或输入很乱，先读 [references/real-user-scenario.md](references/real-user-scenario.md)。
 如果需要工作流背景，读 [references/compensation-workflows.md](references/compensation-workflows.md)。
+如果需要最新政策、城市口径和系统操作依据，读 [references/china-compensation-policy-kb-2026.md](references/china-compensation-policy-kb-2026.md)。
 
 ## 路由规则
 
