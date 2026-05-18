@@ -1,0 +1,5 @@
+interface:
+  display_name: "薪酬申报检查助手 / Payroll Filing Check Assistant"
+  short_description: "个税社保公积金申报前检查 / Precheck for payroll filings"
+  default_prompt: "使用 $hr-compensation-checks 帮我检查个税、社保、公积金申报前的数据风险，优先输出高风险问题、待办和内部说明稿。"
+
