@@ -1,7 +1,7 @@
 ---
 name: hr-compensation-checks
 description: 帮 HR 做定薪判断、band 对标、市场调研摘要，以及个税社保公积金申报前检查，先看值不值，再看会不会出风险。 / Help HR teams with compensation review, band and market checks, and payroll filing prechecks.
-version: 0.3.0
+version: 0.3.1
 metadata:
   openclaw:
     homepage: https://github.com/Ashley-AIHR/hrskill-compensation-module
@@ -62,6 +62,8 @@ metadata:
 1. Word 分析报告
 2. CSV 检查记录
 3. JSON 结构化输出
+
+第一次想快速理解这个 skill 怎么用，先看 [references/real-user-scenario.md](references/real-user-scenario.md)。
 
 ## 当前 production-ready 场景
 
