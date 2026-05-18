@@ -53,17 +53,28 @@
       ]
     }
   },
-  "missing_information": [],
+  "missing_information": [
+    "缺少预算范围"
+  ],
   "risk_summary": "候选人期望明显高于内部同级平均水平",
   "priority_issues": [
     "候选人期望明显高于内部同级平均水平"
   ],
-  "next_action": "按 42000 左右准备定薪审批材料，并同步说明 band 与市场依据。",
-  "message_draft": "周子涵 的期望薪资与岗位 band、市场分位已完成比对，建议 建议按 band 中高位定薪。",
+  "next_action": "先补齐 缺少预算范围，再决定是否进入正式定薪审批。",
+  "message_draft": "周子涵 的期望薪资与岗位 band、市场分位及内部参考已完成比对，本次属于“弱建议”，建议 建议按 band 中高位定薪。",
   "record_update": {
     "candidate_name": "周子涵",
     "target_role": "高级用户增长产品经理",
-    "suggested_base": 42000
+    "suggested_base": 42000,
+    "recommendation_strength": "弱建议"
+  },
+  "data_sources_used": {
+    "has_band": true,
+    "has_paid_survey_data": true,
+    "has_internal_reference": true,
+    "has_budget": false,
+    "has_current_pay": true,
+    "has_public_market_signal": false
   },
   "compliance_warning_if_any": []
 }

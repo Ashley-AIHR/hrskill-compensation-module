@@ -1,7 +1,7 @@
 ---
 name: hr-compensation-checks
 description: 帮 HR 做定薪判断、band 对标、市场调研摘要，以及个税社保公积金申报前检查，先看值不值，再看会不会出风险。 / Help HR teams with compensation review, band and market checks, and payroll filing prechecks.
-version: 0.4.0
+version: 0.5.0
 metadata:
   openclaw:
     homepage: https://github.com/Ashley-AIHR/hrskill-compensation-module
@@ -29,6 +29,7 @@ metadata:
 如果用户第一次使用或输入很乱，先读 [references/real-user-scenario.md](references/real-user-scenario.md)。
 如果需要工作流背景，读 [references/compensation-workflows.md](references/compensation-workflows.md)。
 如果需要最新政策、城市口径和系统操作依据，读 [references/china-compensation-policy-kb-2026.md](references/china-compensation-policy-kb-2026.md)。
+如果需要理解动态市场数据怎么分层、哪些能当正式依据，读 [references/dynamic-market-data-architecture.md](references/dynamic-market-data-architecture.md)。
 
 ## 路由规则
 
@@ -43,6 +44,15 @@ metadata:
 
 1. 有申报名单、基数、主体、缴纳地，就走 `precheck_payroll_filing`
 2. 有 band、市场分位、候选人期望，就走 `review_compensation_band_and_offer`
+
+对 `review_compensation_band_and_offer`，必须区分：
+
+1. `official_policy`
+2. `public_market_signal`
+3. `paid_survey_data`
+4. `internal_company_data`
+
+如果只有 `public_market_signal`，不允许把结论写成正式定薪建议。
 
 ## 输出协议
 
@@ -72,6 +82,7 @@ compliance_warning_if_any
 6. `next_action` 必须是 HR 今天能做的动作。
 7. `message_draft` 默认写给业务负责人、薪酬同事或数据提供方。
 8. `human_confirmation_needed` 必须写清楚还要谁确认什么。
+9. 对定薪场景，必须标明本次结论属于 `正式建议`、`弱建议` 还是 `仅市场信号判断`。
 
 ## 动作要求
 
@@ -94,6 +105,16 @@ internal_peer_reference
 budget_range
 ```
 
+并优先识别：
+
+```text
+official_policy
+public_market_signal
+paid_survey_data
+internal_company_data
+candidate_total_comp_context
+```
+
 结果优先顺序：
 
 1. 建议怎么定
@@ -102,6 +123,14 @@ budget_range
 4. 怎么和业务解释
 5. 还需要谁确认
 
+判断规则：
+
+1. 同时具备 `internal_company_data + paid_survey_data + candidate_current_pay_or_total_comp + budget_range` 时，才可给 `正式建议`
+2. 只有 `public_market_signal` 时，只能给 `市场信号判断`
+3. 缺少 `band` 或 `internal_company_data` 时，不得假装能完成内部公平判断
+4. 缺少 `budget_range` 时，不得假装能完成审批级建议
+5. 缺少 `candidate_current_pay` 或总包口径时，要主动降低结论强度
+
 如果需要文件产出，运行：
 
 ```text
@@ -109,6 +138,7 @@ node scripts/generate_band_offer_packet.js <input.json> <output-dir>
 ```
 
 示例输入： [assets/band-offer-review-input.sample.json](assets/band-offer-review-input.sample.json)
+动态分层示例输入： [assets/band-offer-review-input.dynamic.sample.json](assets/band-offer-review-input.dynamic.sample.json)
 
 ### `precheck_payroll_filing`
 
@@ -152,3 +182,4 @@ node scripts/generate_payroll_precheck_packet.js <input.json> <output-dir>
 4. 定薪判断优先看 band、市场和内部公平，不要只盯一个数字。
 5. 缺政策口径或核心字段时，不要装得很确定，要明确降置信度。
 6. 不自动给法律结论，但要明确提示合规风险。
+7. 对公网职位薪资，只能当作市场信号，不能冒充正式薪酬调研。
